@@ -38,6 +38,7 @@ mainApp.controller('GetFilesController', function($scope, $http) {
 		}, function error(response) {
 			$scope.uploadResult =  response.data;
 		});
+		
 		var url = "/rest/getAllFiles";
         $http.get(url).then(function(response) {
 	            $scope.allFiles = response.data;

@@ -10,7 +10,9 @@ package com.au.vectron.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -83,8 +85,10 @@ public class MainRESTController {
         try {        	
             User saveRes = userRepository.save(d2eMapper.asEntity(user));
             
-            Long userId = saveRes.getId(); 
-            result = this.saveUploadedFiles(user.getFiles(), userId);
+            if(user.getFiles().length>0){
+            	Long userId = saveRes.getId(); 
+                result = this.saveUploadedFiles(user.getFiles(), userId);
+            } 
 
             userRepository.saveImgUserById(result, saveRes.getId()); 
             
@@ -94,7 +98,7 @@ public class MainRESTController {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
  
-        return new ResponseEntity<String>("User Added Successfully- " + user.getFirstName(), HttpStatus.OK);
+        return new ResponseEntity<String>("User '"+ user.getFirstName()+" "+user.getLastName() +"' Added Successfully", HttpStatus.OK);
     }
     
     // Save Files
@@ -179,6 +183,17 @@ public class MainRESTController {
     	
     	 userRepository.deleteById(Long.valueOf(id)); 
          
+    	 // Delete the image    	 
+    	 String filePath = UPLOAD_DIR + "/" + id +".png";
+    	 try{ 
+    		 Files.deleteIfExists(Paths.get(filePath)); 
+    	 } catch(NoSuchFileException e) { 
+    		 System.out.println("No such file/directory exists"); 
+    	 } catch(DirectoryNotEmptyException e) { 
+    		 System.out.println("Directory is not empty."); 
+    	 } catch(IOException e) { 
+    		 System.out.println("Invalid permissions."); 
+    	 } 
          return new ResponseEntity<String>("User Deleted Successfully", HttpStatus.OK);
 
     }
