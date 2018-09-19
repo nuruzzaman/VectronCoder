@@ -1,6 +1,6 @@
 ### Create a simple CRUD RESTful API with MySQL
 
-   ![alt tag](https://github.com/nuruzzaman/VectronCodeTest/blob/master/screenshot/Screen_1.PNG) 
+   ![alt tag](https://github.com/nuruzzaman/VectronCoder/blob/master/screenshot/Screen_1.PNG) 
 
    
 ### Overview
