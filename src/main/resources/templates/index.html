@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+     <title>Spring Boot with AngularJS</title>
+     <meta charset="utf-8" />
+
+	 <!-- jQuery -->
+     <script src="./webjars/jquery/2.2.4/jquery.js"></script>
+     <!-- AngularJS -->
+     <script src="./webjars/angularjs/1.5.7/angular.js"></script>
+     <script src="./webjars/angularjs/1.5.7/angular-route.js"></script>
+     <!-- Bootstrap -->
+     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"/>
+     <link rel="stylesheet" href="webjars/bootstrap/3.3.6/css/bootstrap-theme.css"/>
+     <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+     <script src="/js/MainApp.js"></script>
+     <script src="/js/UploadFileCtrl.js"></script>
+     <script src="/js/GetFilesCtrl.js"></script>
+     
+     <link rel="stylesheet" href="/css/app.css"/>
+       
+   </head>
+   
+   <body ng-app="MainApp">
+      	<nav class="navbar navbar-default navbar-fixed-top">
+		    <div class="container text-center">
+		        <h2>Code Challenge - Vectron </h2>
+		    </div>
+		</nav>
+		<br></br> <br></br>
+
+		<div class="col-md-12 col-md-offset-1">
+			<div class="container-fluid">
+			
+				<!-- 	User Add Form  	 -->
+				<div class="generic-container">
+				    <div class="panel panel-default">
+				        <!-- Default panel contents -->
+				        <div class="panel-heading"><span class="lead">User Account Information </span></div>
+							<div class="panel-body">
+						        <div class="formcontainer">						        
+						        
+							        <div ng-controller="UploadFileController">
+							        	<div style="border:0px solid #ccc;padding: 5px;">
+								            <span ng-bind="uploadResult"></span>
+								         </div>
+								         
+								         <form class="form-horizontal">
+									         <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="firstName">First Name</label>
+							                        <div class="col-md-4">
+							                            <input type="text" ng-model="myForm.firstName" name="firstName" class="username form-control input-sm" placeholder="Enter Your First Name" required ng-minlength="3"/>
+							                        </div>
+							                    </div>
+							                 </div>
+							                 
+							                 <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="lastName">Last Name</label>
+							                        <div class="col-md-4">
+							                            <input type="text" ng-model="myForm.lastName" name="lastName" class="username form-control input-sm" placeholder="Enter Your Last Name" required ng-minlength="3"/>
+							                        </div>
+							                    </div>
+							                </div>	               
+						        
+							                <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="emailAddress">Email Address</label>
+							                        <div class="col-md-4">
+							                            <input type="email" ng-model="myForm.emailAddress" name="emailAddress" class="form-control input-sm" placeholder="Enter Your Email Address" required/>
+							                        </div>
+							                    </div>
+							                </div>
+							
+							                <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="mobileNumber">Mobile Number</label>
+							                        <div class="col-md-4">
+							                            <input type="text" ng-model="myForm.mobileNumber" name="mobileNumber" class="form-control input-sm" placeholder="Enter Your Mobile Number" required/>
+							                        </div>
+							                    </div>
+							                </div>
+							                
+							                 <!-- <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="description">Description</label>
+							                        <div class="col-md-4">
+							                            <input type="text" ng-model="myForm.description" name="description" class="username form-control input-sm" placeholder="Enter Description" required ng-minlength="3"/>
+							                        </div>
+							                    </div>
+							                 </div> -->
+								            
+								            <div class="row">
+							                    <div class="form-group col-md-12">
+							                        <label class="col-md-2 control-lable" for="description">File upload</label>
+							                        <div class="col-md-4">
+							                            <input type="file" file-model="myForm.files[0]"/>
+							                        </div>
+							                    </div>
+							                 </div>								            
+								            
+								            <div class="row">
+							                    <div class="form-actions floatLeft col-md-12">
+							                        <button type="button" ng-click="doUploadFile()" class="btn btn-primary btn-sm"> Submit </button>
+							                        <button type="reset" class="btn btn-warning btn-sm" >Reset Form</button>
+							                    </div>
+							                </div>
+								         </form>
+							         
+							      	</div>
+						        
+						    	</div>
+							</div>
+					</div>
+				</div>
+	        				
+		      
+		      <!-- Get Files -->
+		      <div class="generic-container">
+				    <div class="panel panel-default">
+				        <!-- Default panel contents -->
+				        <div class="panel-heading"><span class="lead">List of User </span></div>
+							<div class="panel-body">
+						        <div class="formcontainer">						        
+						        
+							        <div ng-controller="GetFilesController">
+								         <button type="button" ng-click="getAllFiles()" class="btn btn-primary btn-sm" >Show User</button>
+								         
+								         <div class="table-responsive">
+								         	<table class="table table-hover">
+								         		<thead>
+										        <tr>
+										            <th>ID</th>	
+										            <th>Firstname</th>
+										            <th>Lastname</th>
+										            <th>Email</th>
+										            <th>Mobile</th>
+										            <th>Photo</th>
+										            <th>Created Date</th>
+										            <th>Update Date</th>
+										            <th></th>
+										        </tr>
+										        </thead>
+										        <tbody>
+										        </tbody>
+										        <tr ng-repeat="user in allFiles">
+										        	<td>{{user.id}}</td>
+										        	<td>{{user.firstName}}</td>
+										        	<td>{{user.lastName}}</td>
+										        	<td>{{user.emailAddress}}</td>
+										        	<td>{{user.mobileNumber}}</td>
+										        	<td><a href='/rest/files/{{user.imgName}}'>{{user.imgName}}</a></td>
+										        	<td>{{user.createdDate}}</td>
+										        	<td>{{user.lastUpdatedDate}}</td>
+										        	<td>
+										        		<button ng-click="editUser(user)" type="button" class="btn btn-success btn-sm">Edit</button>
+			                							<button ng-click="updateUser(user)" type="button" class="btn btn-warning btn-sm" >Save</button>
+										        		<button ng-click="deleteUser(user)" type="button" class="btn btn-danger btn-sm">Delete</button>
+										        	</td>
+										        	
+										        </tr>
+								         	</table>
+								         </div>
+
+								    </div>
+						        
+						    	</div>
+							</div>
+					</div>
+				</div>
+		      
+			</div>
+		</div>
+	     
+</body>
+</html>
