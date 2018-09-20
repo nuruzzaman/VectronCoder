@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.websystique.springboot</groupId>
-	<artifactId>SpringBootCRUDApplicationExample</artifactId>
+	<artifactId>VectronApp</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>SpringBootCRUDApplicationExample</name>
+	<name>Vectron App</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
