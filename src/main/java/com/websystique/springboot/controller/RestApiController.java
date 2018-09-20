@@ -176,7 +176,13 @@ public class RestApiController {
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 
 		User currentUser = userService.findById(id);
-
+		if (userService.isUserEmailExist(currentUser)) {
+			return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
+		}
+		if (userService.isMobileExist(currentUser)) {
+			return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
+		}
+		
 		if (currentUser == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
