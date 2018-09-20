@@ -16,16 +16,18 @@ public interface UserService {
 
 	User findByEmailAddress(String email);
 
+	User findByMobileNumber(String mobile);
+	
 	User saveUser(User user);
 
 	void updateUser(User user);
 
 	void deleteUserById(Long id);
 
-	void deleteAllUsers();
-
 	List<User> findAllUsers();
 
 	boolean isUserEmailExist(User user);
+	
+	boolean isMobileExist(User user);
 	
 }

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmailAddress(String email);
+    
+    User findByMobileNumber(String mobile);
 
 	@Transactional
 	@Modifying

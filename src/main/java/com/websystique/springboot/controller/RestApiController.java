@@ -123,8 +123,10 @@ public class RestApiController {
 		User userEntity = d2eMapper.asEntity(user); 
 		
 		if (userService.isUserEmailExist(userEntity)) {
-			return new ResponseEntity(new CustomErrorType("Unable to create. A User with Email Address : " + 
-			user.getEmailAddress() + " already exist."),HttpStatus.CONFLICT);
+			return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
+		}
+		if (userService.isMobileExist(userEntity)) {
+			return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
 		}
 		
 		String result = null;
@@ -214,15 +216,6 @@ public class RestApiController {
 	   		 System.out.println("Invalid permissions."); 
 	   	 } 
 	   	 
-		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-	}
-
-	// ------------------- Delete All Users-----------------------------
-
-	@RequestMapping(value = "/user/", method = RequestMethod.DELETE)
-	public ResponseEntity<User> deleteAllUsers() {
-
-		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
 

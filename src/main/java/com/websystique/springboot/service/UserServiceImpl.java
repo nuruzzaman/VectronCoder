@@ -29,6 +29,10 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findByEmailAddress(email);
 	}
 
+	public User findByMobileNumber(String mobile) {
+		return userRepository.findByMobileNumber(mobile);
+	}
+	
 	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
@@ -51,6 +55,11 @@ public class UserServiceImpl implements UserService{
 
 	public boolean isUserEmailExist(User user) {
 		return findByEmailAddress(user.getEmailAddress()) != null;
+	}
+
+	@Override
+	public boolean isMobileExist(User user) {
+		return findByMobileNumber(user.getMobileNumber()) != null;
 	}
 
 

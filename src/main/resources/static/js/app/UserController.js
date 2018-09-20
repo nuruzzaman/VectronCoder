@@ -63,9 +63,8 @@ angular.module('crudApp').controller('UserController',
                         $scope.myForm.$setPristine();
                     },
                     function(errResponse) {
-                    	console.error('Error while creating User');
-                        //self.errorMessage = 'Error while creating User: ' + errResponse.data.errorMessage;
-                    	self.errorMessage = 'Email Address or Mobile Number Already Exist.'; 
+                    	//console.error('Error while creating User');
+                        self.errorMessage = errResponse.data;
                         self.successMessage='';
                     });
 
