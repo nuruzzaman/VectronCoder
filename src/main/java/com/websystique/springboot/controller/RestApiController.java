@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.websystique.springboot.dto.DtoToEntityMapper;
 import com.websystique.springboot.dto.EntityToDtoMapper;
@@ -49,8 +50,6 @@ import com.websystique.springboot.util.CustomErrorType;
 @RestController
 @RequestMapping("/api")
 public class RestApiController {
-
-	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
 
 	private static String UPLOAD_DIR = System.getProperty("user.home") + "/test";
 	
@@ -109,10 +108,8 @@ public class RestApiController {
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUser(@PathVariable("id") long id) {
-		logger.info("Fetching User with id {}", id);
 		User user = userService.findById(id);
 		if (user == null) {
-			logger.error("User with id {} not found.", id);
 			return new ResponseEntity(new CustomErrorType("User with id " + id 
 					+ " not found"), HttpStatus.NOT_FOUND);
 		}
@@ -121,13 +118,11 @@ public class RestApiController {
 
 	// -------------------Create a User-------------------------------------------
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
-	public ResponseEntity<?> createUser(@ModelAttribute UserDto user) {
-		logger.info("Creating User : {}", user.getFirstName());
+	public ResponseEntity<?> createUser(@ModelAttribute UserDto user, UriComponentsBuilder ucBuilder ) {
 		
 		User userEntity = d2eMapper.asEntity(user); 
 		
 		if (userService.isUserEmailExist(userEntity)) {
-			logger.error("Unable to create. A User with name {} already exist", user.getEmailAddress());
 			return new ResponseEntity(new CustomErrorType("Unable to create. A User with Email Address : " + 
 			user.getEmailAddress() + " already exist."),HttpStatus.CONFLICT);
 		}
@@ -148,9 +143,9 @@ public class RestApiController {
             return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-		//HttpHeaders headers = new HttpHeaders();
-		//headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(userEntity.getId()).toUri());
-		return new ResponseEntity<String>(user.getFirstName(), HttpStatus.CREATED);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(userEntity.getId()).toUri());
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 
 	// Save Files
@@ -177,12 +172,10 @@ public class RestApiController {
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-		logger.info("Updating User with id {}", id);
 
 		User currentUser = userService.findById(id);
 
 		if (currentUser == null) {
-			logger.error("Unable to update. User with id {} not found.", id);
 			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
@@ -201,11 +194,9 @@ public class RestApiController {
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-		logger.info("Fetching & Deleting User with id {}", id);
 
 		User user = userService.findById(id);
 		if (user == null) {
-			logger.error("Unable to delete. User with id {} not found.", id);
 			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
@@ -230,7 +221,6 @@ public class RestApiController {
 
 	@RequestMapping(value = "/user/", method = RequestMethod.DELETE)
 	public ResponseEntity<User> deleteAllUsers() {
-		logger.info("Deleting All Users");
 
 		userService.deleteAllUsers();
 		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);

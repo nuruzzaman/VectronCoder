@@ -22,13 +22,18 @@ angular.module('crudApp').controller('UserController',
         self.onlyIntegers = /^\d+$/;
         self.onlyNumbers = /^\d+([,.]\d+)?$/;
 
-        function submit() {            
-            if (self.user.id === undefined || self.user.id === null) {                
-                createUser(self.user);
-            } else {
-                updateUser(self.user, self.user.id);
-               // console.log('User updated with id ', self.user.id);
-            }
+        function submit() {
+        	if(self.user.files===undefined){
+        		self.errorMessage = 'Please select a photo'; 
+        	}else{
+        		if (self.user.id === undefined || self.user.id === null) {                
+                    createUser(self.user);
+                } else {
+                    updateUser(self.user, self.user.id);
+                   // console.log('User updated with id ', self.user.id);
+                }
+        	}
+            
         }
 
         function createUser(user) {
@@ -47,6 +52,7 @@ angular.module('crudApp').controller('UserController',
                     }
                 }
         	$http.post(urls.USER_SERVICE_API, data, config).then(
+        			
                     function(response) {
                     	UserService.loadAllUsers();
                     	console.log('User created successfully');
@@ -58,7 +64,8 @@ angular.module('crudApp').controller('UserController',
                     },
                     function(errResponse) {
                     	console.error('Error while creating User');
-                        self.errorMessage = 'Error while creating User: ' + errResponse.data.errorMessage;
+                        //self.errorMessage = 'Error while creating User: ' + errResponse.data.errorMessage;
+                    	self.errorMessage = 'Email Address or Mobile Number Already Exist.'; 
                         self.successMessage='';
                     });
 
