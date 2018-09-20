@@ -101,7 +101,7 @@ angular.module('crudApp').controller('UserController',
                             'Content-Type': undefined
                         }
                     }
-                console.log("update user"); 
+                
             	$http.post(urls.USER_SERVICE_API + id, data, config).then(
             			
                         function(response) {

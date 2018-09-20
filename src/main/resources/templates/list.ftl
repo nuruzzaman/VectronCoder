@@ -1,3 +1,4 @@
+<div class="col-md-12 col-md-offset-1">
 <div class="generic-container">
     <div class="panel panel-default">
         <!-- Default panel contents -->
@@ -107,3 +108,4 @@
 		</div>
     </div>
 </div>
+</div> 

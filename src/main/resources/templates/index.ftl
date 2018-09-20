@@ -8,6 +8,12 @@
     </head>
     <body>
 
+		<nav class="navbar navbar-default navbar-fixed-top">
+		    <div class="container text-center">
+		        <h3>Code Challenge - Vectron </h3>
+		    </div>
+		</nav></br></br> 
+	
         <div ui-view></div>
         
         <script src="js/lib/angular.min.js" ></script>
