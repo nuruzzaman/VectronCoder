@@ -54,12 +54,16 @@
 	                    </div>
 	                 </div>	
 
-	                <div class="row">
-	                    <div class="form-actions floatRight">
-	                        <input type="submit"  value="{{!ctrl.user.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid || myForm.$pristine">
-	                        <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
+					<div class="row">
+	                    <div class="form-group col-md-12">
+	                        <label class="col-md-2 control-lable" for="description"></label>
+	                        <div class="col-md-4">
+	                            <input type="submit"  value="{{!ctrl.user.id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid || myForm.$pristine">
+		                        <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
+	                        </div>
 	                    </div>
-	                </div>
+	                 </div>	
+
 	            </form>
     	    </div>
 		</div>	
