@@ -1,8 +1,8 @@
-package com.au.vectron.form; 
+package com.websystique.springboot.dto; 
 
 import org.modelmapper.ModelMapper;
 
-import com.au.vectron.model.User;
+import com.websystique.springboot.model.User;
 
 /**
  * @author Mohammad Nuruzzaman
