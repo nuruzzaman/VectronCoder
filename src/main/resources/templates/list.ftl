@@ -47,7 +47,7 @@
 	                
 	                <div class="row">
 	                    <div class="form-group col-md-12">
-	                        <label class="col-md-2 control-lable" for="description">File upload</label>
+	                        <label class="col-md-2 control-lable" for="files">File upload</label>
 	                        <div class="col-md-4">
 	                            <input type="file" file-model="ctrl.user.files[0]"/>
 	                        </div>

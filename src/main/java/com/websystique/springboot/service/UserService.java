@@ -29,5 +29,9 @@ public interface UserService {
 	boolean isUserEmailExist(User user);
 	
 	boolean isMobileExist(User user);
+
+	boolean isEmailExistWithCurrentUser(User currentUser);
+
+	boolean isMobileExistWithCurrentUser(User currentUser);
 	
 }

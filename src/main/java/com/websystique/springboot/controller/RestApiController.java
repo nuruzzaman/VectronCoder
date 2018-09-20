@@ -176,11 +176,13 @@ public class RestApiController {
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 
 		User currentUser = userService.findById(id);
-		if (userService.isUserEmailExist(currentUser)) {
-			return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
+		if (userService.isEmailExistWithCurrentUser(user)) {
+			return new ResponseEntity<UserDto>(e2dMapper.asDto(currentUser), HttpStatus.FOUND);
+			//return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
 		}
-		if (userService.isMobileExist(currentUser)) {
-			return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
+		if (userService.isMobileExistWithCurrentUser(user)) {
+			return new ResponseEntity<UserDto>(e2dMapper.asDto(currentUser), HttpStatus.FOUND);
+			//return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
 		}
 		
 		if (currentUser == null) {
@@ -188,6 +190,12 @@ public class RestApiController {
 					HttpStatus.NOT_FOUND);
 		}
 
+		//delete existing image 
+		//deleteUserImage(String.valueOf(id)); 
+		
+		//Upload New Image 
+		
+		
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmailAddress(user.getEmailAddress());
@@ -210,6 +218,12 @@ public class RestApiController {
 		}
 		userService.deleteUserById(id);
 		
+		deleteUserImage(String.valueOf(id)); 
+	   	 
+		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+	}
+
+	public void deleteUserImage(String id){
 		// Delete the image    	 
 	   	 String filePath = UPLOAD_DIR + "/" + id +".png";
 	   	 try{ 
@@ -221,10 +235,7 @@ public class RestApiController {
 	   	 } catch(IOException e) { 
 	   		 System.out.println("Invalid permissions."); 
 	   	 } 
-	   	 
-		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
 	}
-
     /**	 Download image file 	*/ 
     @GetMapping("/rest/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) throws MalformedURLException {

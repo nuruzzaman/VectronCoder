@@ -72,19 +72,17 @@ angular.module('crudApp').controller('UserController',
 
 
         function updateUser(user, id){
-            //console.log('About to update user');
             UserService.updateUser(user, id)
                 .then(
                     function (response){
-                        console.log('User updated successfully');
                         self.successMessage='User updated successfully';
                         self.errorMessage='';
                         self.done = true;
                         $scope.myForm.$setPristine();
                     },
                     function(errResponse){
-                        console.error('Error while updating User');
-                        self.errorMessage='Error while updating User '+errResponse.data;
+                    	console.log("user controller"); 
+                        self.errorMessage= errResponse.data;
                         self.successMessage='';
                     }
                 );
@@ -92,11 +90,11 @@ angular.module('crudApp').controller('UserController',
 
 
         function removeUser(id){
-            //console.log('About to remove User with id '+id);
             UserService.removeUser(id)
                 .then(
                     function(){
-                        console.log('User '+id + ' removed successfully');
+                    	self.successMessage='';
+                        self.errorMessage= 'User '+id + ' removed successfully'; 
                     },
                     function(errResponse){
                         console.error('Error while removing user '+id +', Error :'+errResponse.data);

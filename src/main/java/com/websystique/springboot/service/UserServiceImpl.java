@@ -57,9 +57,22 @@ public class UserServiceImpl implements UserService{
 		return findByEmailAddress(user.getEmailAddress()) != null;
 	}
 
-	@Override
 	public boolean isMobileExist(User user) {
 		return findByMobileNumber(user.getMobileNumber()) != null;
+	}
+
+	public User isEmailExistWithCurrentUser(String email, Long id) {
+		return userRepository.isEmailExistWithCurrentUser(email, id);
+	}	
+	public boolean isEmailExistWithCurrentUser(User currentUser) {
+		return isEmailExistWithCurrentUser(currentUser.getEmailAddress(), currentUser.getId()) != null;
+	}
+
+	public User isMobileExistWithCurrentUser(String mobile, Long id) {
+		return userRepository.isMobileExistWithCurrentUser(mobile, id);
+	}	
+	public boolean isMobileExistWithCurrentUser(User currentUser) {
+		return isMobileExistWithCurrentUser(currentUser.getMobileNumber(), currentUser.getId()) != null;
 	}
 
 
