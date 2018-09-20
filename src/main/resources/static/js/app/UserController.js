@@ -71,23 +71,54 @@ angular.module('crudApp').controller('UserController',
         }
 
 
-        function updateUser(user, id){
-            UserService.updateUser(user, id)
+        function updateUser(user, id) {
+        	
+        	if(self.user.files===null){
+        		UserService.updateUser(user, id)
                 .then(
-                    function (response){
-                        self.successMessage='User updated successfully';
-                        self.errorMessage='';
-                        self.done = true;
-                        $scope.myForm.$setPristine();
+                    function(){
+                    	self.successMessage = 'User updated successfully';
+                        self.errorMessage= ''; 
                     },
                     function(errResponse){
-                    	console.log("user controller"); 
-                        self.errorMessage= errResponse.data;
+                    	self.errorMessage = errResponse.data;
                         self.successMessage='';
                     }
                 );
-        }
+        		
+        	}else{
+        		var data = new FormData();
+                data.append("firstName", self.user.firstName);
+                data.append("lastName", self.user.lastName);
+                data.append("emailAddress", self.user.emailAddress);
+                data.append("mobileNumber", self.user.mobileNumber);
+                data.append("files", self.user.files[0]);
 
+                var config = {
+                        transformRequest: angular.identity,
+                        transformResponse: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    }
+                console.log("update user"); 
+            	$http.post(urls.USER_SERVICE_API + id, data, config).then(
+            			
+                        function(response) {
+                        	UserService.loadAllUsers();
+                            self.successMessage = 'User updated successfully';
+                            self.errorMessage='';
+                            self.done = true;
+                            self.user={};
+                            $scope.myForm.$setPristine();
+                        },
+                        function(errResponse) {
+                            self.errorMessage = errResponse.data;
+                            self.successMessage='';
+                        });
+        	}
+        	
+        }
 
         function removeUser(id){
             UserService.removeUser(id)

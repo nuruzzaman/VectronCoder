@@ -172,6 +172,42 @@ public class RestApiController {
     
 	// ------------------- Update a User ------------------------------------------------
 
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
+	public ResponseEntity<?> updateUserWithImage(@PathVariable("id") long id, @ModelAttribute UserDto user, UriComponentsBuilder ucBuilder ) {
+    	User userEntity = d2eMapper.asEntity(user); 
+		
+    	if (userService.isEmailExistWithCurrentUser(userEntity)) {
+			return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
+		}
+		if (userService.isMobileExistWithCurrentUser(userEntity)) {
+			return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
+		}
+		
+		User currentUser = userService.findById(id);
+		
+		if (currentUser == null) {
+			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+
+		//delete existing image 
+		//deleteUserImage(String.valueOf(id)); 
+		
+		//Upload New Image 
+		
+		
+		currentUser.setFirstName(user.getFirstName());
+		currentUser.setLastName(user.getLastName());
+		currentUser.setEmailAddress(user.getEmailAddress());
+		currentUser.setMobileNumber(user.getMobileNumber());
+		currentUser.setLastUpdatedDate(new Date());		
+		userService.updateUser(currentUser);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(userEntity.getId()).toUri());
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+    
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 
@@ -190,12 +226,6 @@ public class RestApiController {
 					HttpStatus.NOT_FOUND);
 		}
 
-		//delete existing image 
-		//deleteUserImage(String.valueOf(id)); 
-		
-		//Upload New Image 
-		
-		
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmailAddress(user.getEmailAddress());
