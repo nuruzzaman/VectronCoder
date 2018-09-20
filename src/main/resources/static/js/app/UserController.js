@@ -80,8 +80,8 @@ angular.module('crudApp').controller('UserController',
                     	self.successMessage = 'User updated successfully';
                         self.errorMessage= ''; 
                     },
-                    function(errResponse){
-                    	self.errorMessage = errResponse.data;
+                    function(errResponse){                    	
+                    	self.errorMessage = errResponse.data.statusMessage;
                         self.successMessage='';
                     }
                 );

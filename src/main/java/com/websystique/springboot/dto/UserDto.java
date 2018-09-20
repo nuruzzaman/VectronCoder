@@ -33,6 +33,8 @@ public class UserDto {
 
 	private String imgName;
 	
+	private String statusMessage;
+	
 	private MultipartFile files;
 
 	public String getImgName() {
@@ -106,5 +108,14 @@ public class UserDto {
 	public void setLastUpdatedDate(String lastUpdatedDate) {
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
+
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
+	}
+
 	
 }

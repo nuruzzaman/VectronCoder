@@ -183,24 +183,31 @@ public class RestApiController {
 			return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
 		}
 		
-		User currentUser = userService.findById(id);
-		
+		User currentUser = userService.findById(id);		
 		if (currentUser == null) {
 			return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
 
 		//delete existing image 
-		//deleteUserImage(String.valueOf(id)); 
+		deleteUserImage(String.valueOf(id)); 
 		
 		//Upload New Image 
-		
+		String result =null; 
+		try {
+			result = this.saveUploadedFiles(user.getFiles(), id);
+			
+		} catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 		
 		currentUser.setFirstName(user.getFirstName());
 		currentUser.setLastName(user.getLastName());
 		currentUser.setEmailAddress(user.getEmailAddress());
 		currentUser.setMobileNumber(user.getMobileNumber());
-		currentUser.setLastUpdatedDate(new Date());		
+		currentUser.setImgName(String.valueOf(id)+".png"); 
+		currentUser.setLastUpdatedDate(new Date());
 		userService.updateUser(currentUser);
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -212,13 +219,15 @@ public class RestApiController {
 	public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 
 		User currentUser = userService.findById(id);
+		UserDto userDto = e2dMapper.asDto(currentUser); 
+		
 		if (userService.isEmailExistWithCurrentUser(user)) {
-			return new ResponseEntity<UserDto>(e2dMapper.asDto(currentUser), HttpStatus.FOUND);
-			//return new ResponseEntity<String>("Email Address Already Exist.", HttpStatus.FOUND);
+			userDto.setStatusMessage("Email Address Already Exist"); 
+			return new ResponseEntity<UserDto>(userDto, HttpStatus.FOUND);
 		}
 		if (userService.isMobileExistWithCurrentUser(user)) {
-			return new ResponseEntity<UserDto>(e2dMapper.asDto(currentUser), HttpStatus.FOUND);
-			//return new ResponseEntity<String>("Mobile Number Address Already Exist.", HttpStatus.FOUND);
+			userDto.setStatusMessage("Mobile Number Already Exist"); 
+			return new ResponseEntity<UserDto>(userDto, HttpStatus.FOUND);
 		}
 		
 		if (currentUser == null) {
