@@ -1,5 +1,6 @@
 ### Overview
 Design a simple web form to Create, Read, List, Update accounts information and a RESTful API with a MySQL database. 
+You can download user image by clicking on the image. 
 
 ### Requirements
  - MySQL database
