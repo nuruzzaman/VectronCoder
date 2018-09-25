@@ -125,7 +125,7 @@ angular.module('crudApp').controller('UserController',
                 .then(
                     function(){
                     	self.successMessage='';
-                        self.errorMessage= 'User '+id + ' removed successfully'; 
+                        self.errorMessage= 'User id '+id + ' removed successfully'; 
                     },
                     function(errResponse){
                         console.error('Error while removing user '+id +', Error :'+errResponse.data);
