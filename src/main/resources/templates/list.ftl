@@ -71,7 +71,7 @@
     </div>
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading"><span class="lead">List of Users </span></div>
+        <div class="panel-heading"><span class="lead">List of Users -- </span><small> Click the image to download it. </small></div>        
 		<div class="panel-body">
 			<div class="table-responsive">
 		        <table class="table table-hover">
@@ -96,7 +96,8 @@
 		                <td>{{u.lastName}}</td>
 		                <td>{{u.emailAddress}}</td>
 		                <td>{{u.mobileNumber}}</td>
-		                <td><a href='/api/rest/files/{{u.imgName}}'>{{u.imgName}}</td>
+		                <td><a href='/api/rest/files/{{u.imgName}}'>
+		                	<img src='/api/rest/files/{{u.imgName}}' style="width:50px;height:60px;"></td></a>
 		                <td>{{u.createdDate}}</td>
 		                <td>{{u.lastUpdatedDate}}</td>
 		                <td><button type="button" ng-click="ctrl.editUser(u.id)" class="btn btn-success btn-sm">Edit</button></td>
