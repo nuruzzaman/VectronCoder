@@ -1,6 +1,12 @@
 ### Overview
 Design a simple web form to Create, Read, List, Update accounts information and a RESTful API with a MySQL database. 
 
+### Requirements
+ - MySQL database
+ - Java 1.8, Springboot 
+ - Angular
+ - Bootstrap  
+ 
 ### Create User Account 
    ![alt tag](https://github.com/nuruzzaman/VectronCoder/blob/master/screenshot/Screen_1.PNG) 
 ### User Form Validation     
@@ -10,12 +16,6 @@ Design a simple web form to Create, Read, List, Update accounts information and 
 ### Delete User Account    
    ![alt tag](https://github.com/nuruzzaman/VectronCoder/blob/master/screenshot/Screen_4.PNG)  
 
-
-### Requirements
- - MySQL database
- - Java 1.8, Springboot 
- - Angular
- - Bootstrap  
  
 ### Run Demo 
  - Locate application.properties in \resources\ and change the database name, username and password
